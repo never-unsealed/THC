@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Request {
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
     public Request(String hash, String bearer, String curname, String curpass, int requests, String email, String password, String masked) {
 
 
@@ -73,11 +73,7 @@ public class Request {
                 writer.close();
 
 
-
-                List < String > list = new ArrayList < > ();
-                Collections.addAll(list, Main.eachAcc);
-                list.removeAll(Arrays.asList(email + ":" + password));
-                Main.eachAcc = list.toArray(EMPTY_STRING_ARRAY);
+                new ArrayRemove(email, password);
 
                 if (Main.eachAcc.length == 0) {
 
