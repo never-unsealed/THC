@@ -75,13 +75,7 @@ public class Request {
 
                 new ArrayRemove(email, password);
 
-                if (Main.eachAcc.length == 0) {
 
-                    ConsoleLogger.logInfo("All accounts used. Quitting...");;
-                    System.exit(0);
-
-
-                }
 
             }
 
