@@ -115,7 +115,7 @@ public class InitManual {
                         }
                     });
 
-
+                    t.start();
 
 
                 }
@@ -226,7 +226,7 @@ public class InitManual {
 
                         }
                     });
-
+                    t.start();
 
 
 
