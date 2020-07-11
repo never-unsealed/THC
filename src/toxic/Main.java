@@ -15,6 +15,7 @@ import java.util.TimeZone;
 public class Main {
 
     public static String accs = "";
+    public static String captchakeyst = "";
 
     public static String[] eachAcc;
 
@@ -41,6 +42,9 @@ public class Main {
             File accounts = new File("accounts.txt");
             accounts.createNewFile();
 
+            File captchakey = new File("captchakey.txt");
+            captchakey.createNewFile();
+
 
             Scanner accReader = new Scanner(accounts);
             while (accReader.hasNextLine()) {
@@ -48,6 +52,17 @@ public class Main {
 
             }
 
+            Scanner ckReader = new Scanner(captchakey);
+            while (ckReader.hasNextLine()) {
+                captchakeyst = ckReader.nextLine();
+            }
+
+            if (captchakeyst.isEmpty()) {
+
+                ConsoleLogger.logError("No captcha key found - please get an api token from 2captcha.com and paste it into captchakey.txt");
+                System.exit(1);
+
+            }
 
             if (accs.isEmpty()) {
 
@@ -56,8 +71,10 @@ public class Main {
 
             }
 
+
             eachAcc = accs.split("\n");
             ConsoleLogger.logInfo("Loaded " + eachAcc.length + " account(s)!");
+            ConsoleLogger.logInfo("Loaded captcha key!");
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
             Date date = new Date(System.currentTimeMillis());
