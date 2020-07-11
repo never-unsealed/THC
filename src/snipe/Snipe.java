@@ -185,14 +185,6 @@ public class Snipe {
                     
                     new ArrayRemove(email, password);
 
-                    if (Main.eachAcc.length == 0) {
-
-                        ConsoleLogger.logInfo("All accounts used. Quitting...");
-                        System.exit(0);
-
-
-                    }
-
                 }
 
             }
@@ -204,17 +196,6 @@ public class Snipe {
             ConsoleLogger.logNameError("Account seems to be invalid: " + email + ":" + masked, curname);
 
             new ArrayRemove(email, password);
-
-            if (Main.eachAcc.length == 0) {
-
-                ConsoleLogger.logInfo("All accounts used. Quitting...");
-                System.exit(0);
-
-
-
-
-
-            }
 
 
         }
