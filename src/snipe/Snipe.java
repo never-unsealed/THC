@@ -16,7 +16,7 @@ import java.util.*;
 
 public class Snipe {
 
-    
+
     public Snipe(String email, String password, String curname, String fdate, int retries, long before) throws IOException, InterruptedException, ParseException {
 
 
@@ -69,7 +69,7 @@ public class Snipe {
 
 
 
-            String apiKey = "CENSORED";
+            String apiKey = Main.captchakeyst;
             String googleKey = "6LfbsiMUAAAAAOu1nGK8InBaFrIk17dcbI0sqvzj";
             String pageUrl = "https://www.minecraft.net/en-us/login";
 
@@ -182,8 +182,10 @@ public class Snipe {
                 } else {
 
                     ConsoleLogger.logNameError("Account seems to be invalid: " + email + ":" + masked, curname);
-                    
+
                     new ArrayRemove(email, password);
+
+
 
                 }
 
@@ -196,7 +198,6 @@ public class Snipe {
             ConsoleLogger.logNameError("Account seems to be invalid: " + email + ":" + masked, curname);
 
             new ArrayRemove(email, password);
-
 
         }
 
