@@ -181,7 +181,7 @@ public class Snipe {
 
                 } else {
 
-                    ConsoleLogger.logNameError("Account seems to be invalid: " + email + ":" + masked, curname);
+                    ConsoleLogger.logFailed("Account seems to be invalid: " + email + ":" + masked, curname);
 
                     new ArrayRemove(email, password);
 
@@ -194,7 +194,7 @@ public class Snipe {
         } else {
 
 
-            ConsoleLogger.logNameError("Account seems to be invalid: " + email + ":" + masked, curname);
+            ConsoleLogger.logFailed("Account seems to be invalid: " + email + ":" + masked, curname);
 
             new ArrayRemove(email, password);
 
