@@ -132,7 +132,7 @@ public class Snipe {
                 long diff = d2.getTime() - d1.getTime();
 
 
-                if (diff > 0) {
+                if ((diff - before + Main.timeadjust) > 0) {
                     Thread.sleep(diff - before + Main.timeadjust);
 
                     int tnow = Thread.activeCount();
