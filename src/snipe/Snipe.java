@@ -134,38 +134,45 @@ public class Snipe {
 
                 if (diff > 0) {
                     Thread.sleep(diff - before + Main.timeadjust);
+
+                    int tnow = Thread.activeCount();
+
+
+
+                    ConsoleLogger.logName("Starting Ion Cannon for " + email, curname);
+
+                    for (int i = 0; i < 25; i++) {
+
+
+                        String finalMasked = masked;
+                        Thread t = new Thread(new Runnable() {
+                            public void run() {
+
+                                new Request(uhash, oauth, curname, password, email, finalMasked);
+
+
+                            }
+
+                        });
+
+                        t.start();
+                        Thread.sleep(20);
+
+
+                    }
+
+                    while (Thread.activeCount() != tnow);
+
+
+                    ConsoleLogger.logName("Finished Ion Cannon for " + email, curname);
+
+                }else{
+
+                    ConsoleLogger.logFailed(email + " couldn't prepare in time.",curname);
+
                 }
 
-                int tnow = Thread.activeCount();
 
-
-
-                ConsoleLogger.logName("Starting Ion Cannon for " + email, curname);
-
-                for (int i = 0; i < 25; i++) {
-
-
-                    String finalMasked = masked;
-                    Thread t = new Thread(new Runnable() {
-                        public void run() {
-
-                            new Request(uhash, oauth, curname, password, email, finalMasked);
-
-
-                        }
-
-                    });
-
-                    t.start();
-                    Thread.sleep(20);
-
-
-                }
-
-                while (Thread.activeCount() != tnow);
-
-
-                ConsoleLogger.logName("Finished Ion Cannon for " + email, curname);
 
 
 
