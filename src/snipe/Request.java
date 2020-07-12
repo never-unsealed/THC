@@ -13,7 +13,7 @@ import java.util.*;
 public class Request {
 
 
-    public Request(String hash, String bearer, String curname, String curpass, int requests, String email, String password, String masked) {
+    public Request(String hash, String bearer, String curname, String curpass, String email, String masked) {
 
 
 
@@ -45,35 +45,28 @@ public class Request {
 
                 Date date1 = new Date(System.currentTimeMillis());
 
-                ConsoleLogger.logRequestCount("Response 204: Username changed. Timing: " + formatter.format(date) + "/" + formatter.format(date1), requests, curname);
+                ConsoleLogger.logName("Response 204: Username changed. Timing: " + formatter.format(date) + "/" + formatter.format(date1), curname);
                 ConsoleLogger.logSuccess("Username sniped on account: " + email + ":" + masked, curname);
 
 
                 File suc = new File("success.txt");
-
                 suc.createNewFile();
-
-
                 String prev = "";
                 @SuppressWarnings("resource")
                 Scanner myReader = new Scanner(suc);
                 while (myReader.hasNextLine()) {
-
                     if (!prev.isEmpty()) {
                         prev = prev + "\n" + myReader.nextLine();
                     } else {
                         prev = myReader.nextLine();
-
                     }
-
                 }
-
                 BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-                writer.write(prev + "\n" + email + ":" + password + " - " + curname + " > " + "\n");
+                writer.write(prev + "\n" + email + ":" + curpass + " - " + curname + " > " + "\n");
                 writer.close();
 
 
-                new ArrayRemove(email, password);
+                new ArrayRemove(email, curpass);
 
 
 
