@@ -28,10 +28,6 @@ public class ConsoleLogger {
         AnsiConsole.out.println(CYAN + "[" + name + "] " + GREEN + "[SUCCESS] " + WHITE + message);
     }
 
-    public static void logRequestCount(String message, int count, String name) {
-        AnsiConsole.out.println(CYAN + "[" + name + "] " + PURPLE + "[" + count +"] " + WHITE + message);
-    }
-
     public static void logName(String message, String name) {
         AnsiConsole.out.println(CYAN + "[" + name + "] " + WHITE + message);
     }
