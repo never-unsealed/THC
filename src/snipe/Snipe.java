@@ -138,24 +138,24 @@ public class Snipe {
 
                 int tnow = Thread.activeCount();
 
-                int requests = 0;
+
 
                 ConsoleLogger.logName("Starting Ion Cannon for " + email, curname);
 
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 25; i++) {
 
-                    int finalRequests = requests;
+
                     String finalMasked = masked;
                     Thread t = new Thread(new Runnable() {
                         public void run() {
 
-                            new Request(uhash, oauth, curname, password, finalRequests, email, password, finalMasked);
+                            new Request(uhash, oauth, curname, password, email, finalMasked);
 
 
                         }
 
                     });
-                    requests++;
+
                     t.start();
                     Thread.sleep(20);
 
@@ -192,7 +192,6 @@ public class Snipe {
             }
 
         } else {
-
 
 
             ConsoleLogger.logNameError("Account seems to be invalid: " + email + ":" + masked, curname);
