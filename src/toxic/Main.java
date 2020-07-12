@@ -13,8 +13,7 @@ import java.util.Scanner;
 import java.util.TimeZone;
 
 public class Main {
-
-    public static String accs = "";
+    
     public static String captchakeyst = "";
 
     public static String[] eachAcc;
@@ -46,6 +45,7 @@ public class Main {
             captchakey.createNewFile();
 
 
+            String accs = "";
             Scanner accReader = new Scanner(accounts);
             while (accReader.hasNextLine()) {
                 accs = accs + accReader.nextLine() + "\n";
