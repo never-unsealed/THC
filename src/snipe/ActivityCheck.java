@@ -4,7 +4,7 @@ import toxic.Main;
 
 public class ActivityCheck {
 
-    public ActivityCheck(){
+    public ActivityCheck() {
 
 
         Main.isActive = true;
@@ -14,7 +14,6 @@ public class ActivityCheck {
         while(System.currentTimeMillis() - started < 300000);
 
         Main.isActive = false;
-
 
     }
 

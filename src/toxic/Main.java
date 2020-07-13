@@ -2,12 +2,10 @@ package toxic;
 
 import logger.ConsoleLogger;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -77,6 +75,7 @@ public class Main {
             eachAcc = accs.split("\n");
             ConsoleLogger.logInfo("Loaded " + eachAcc.length + " account(s)!");
             ConsoleLogger.logInfo("Loaded captcha key!");
+
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
             Date date = new Date(System.currentTimeMillis());

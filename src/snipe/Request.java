@@ -68,7 +68,7 @@ public class Request {
                 writer.close();
 
 
-                new ArrayRemove(email, curpass);
+                new ArrayRemove(email, curpass, curname);
 
 
 

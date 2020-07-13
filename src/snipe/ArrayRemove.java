@@ -12,7 +12,7 @@ import java.util.List;
 public class ArrayRemove {
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
-    public ArrayRemove(String email, String password) throws IOException {
+    public ArrayRemove(String email, String password, String curname) throws IOException {
 
         List< String > list = new ArrayList< >();
         Collections.addAll(list, Main.eachAcc);
@@ -32,7 +32,7 @@ public class ArrayRemove {
 
         if(Main.failedLogin > 2){
 
-            ConsoleLogger.logError("Reached a critical level: Too many invalid accounts will lead to an IP ban by Mojang!");
+            ConsoleLogger.logNameError("Reached a critical level: Too many invalid accounts will lead to an IP ban by Mojang!", curname);
 
         }
 
