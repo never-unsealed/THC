@@ -20,6 +20,7 @@ public class Main {
 
     public static long timeadjust = 0;
     public static long avgRunTime = 0;
+    public static long failedLogin = 0;
 
     public static boolean isActive = false;
 
@@ -31,12 +32,13 @@ public class Main {
 
         if (args.length > 0) {
 
-            double version = 4.0;
+            double version = 4.1;
 
             new ProcessBuilder("cmd", "/c", "title THC v" + version).inheritIO().start().waitFor();
             TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 
             ConsoleLogger.fancy();
+
 
             File accounts = new File("accounts.txt");
             accounts.createNewFile();
