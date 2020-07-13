@@ -122,7 +122,9 @@ public class InitAuto {
                         });
                         activity.start();
 
+                        Main.failedLogin = 0;
                         Main.avgRunTime = 0;
+
                         ConsoleLogger.logName("Starting network and performance test!", name[1]);
 
                         for (int i = 0; i < 5; i++) {
