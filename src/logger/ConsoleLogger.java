@@ -28,33 +28,33 @@ public class ConsoleLogger {
         System.out.println(CYAN + "[" + name + "] " + WHITE + message);
     }
 
-    public static void fancy() {
+    public static void fancy() throws InterruptedException {
 
 
-        String[] fancy = {" _______ _    _  _____    _____       _                 ","|__   __| |  | |/ ____|  / ____|     (_)                ","   | |  | |__| | |      | (___  _ __  _ _ __   ___ _ __ ","   | |  |  __  | |       \\___ \\| '_ \\| | '_ \\ / _ \\ '__|","   | |  | |  | | |____   ____) | | | | | |_) |  __/ |   ","   |_|  |_|  |_|\\_____| |_____/|_| |_|_| .__/ \\___|_|   ","   by smoke#1337                       | |              ","                                       |_|              "};
-
+        String[] fancy = {"████████╗██╗  ██╗ ██████╗    ███████╗███╗   ██╗██╗██████╗ ███████╗██████╗ ","╚══██╔══╝██║  ██║██╔════╝    ██╔════╝████╗  ██║██║██╔══██╗██╔════╝██╔══██╗","   ██║   ███████║██║         ███████╗██╔██╗ ██║██║██████╔╝█████╗  ██████╔╝","   ██║   ██╔══██║██║         ╚════██║██║╚██╗██║██║██╔═══╝ ██╔══╝  ██╔══██╗","   ██║   ██║  ██║╚██████╗    ███████║██║ ╚████║██║██║     ███████╗██║  ██║","   ╚═╝   ╚═╝  ╚═╝ ╚═════╝    ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝"};
+        String author = "                                                                                                           by smoke#1337";
         for(String line:fancy){
 
             for(char c:line.toCharArray()){
-
-                if(!(c == '_' || c == ' ' || c == '|'|| c == '/'|| c == '\\'|| c == '(' || c == ')' || c == '\'' || c == '.') ){
-
-                    System.out.print(GREEN + c);
-
-                }else{
                     System.out.print(PURPLE + c);
-                }
 
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    Thread.sleep(5);
             }
+
+            if(line != "   ╚═╝   ╚═╝  ╚═╝ ╚═════╝    ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝")
+
             System.out.print("\n");
 
         }
-        System.out.print(WHITE + "\n");
+        for(char c:author.toCharArray()){
+
+            System.out.print(GREEN + c);
+            Thread.sleep(5);
+
+        }
+
+        System.out.println(WHITE + "\n");
+
 
     }
 
