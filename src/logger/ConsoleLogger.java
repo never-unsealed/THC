@@ -33,19 +33,28 @@ public class ConsoleLogger {
     }
 
     public static void fancy() {
-        AnsiConsole.out.println(PURPLE + " _______ _    _  _____    _____       _                 ");
-        AnsiConsole.out.println(PURPLE + "|__   __| |  | |/ ____|  / ____|     (_)                ");
-        AnsiConsole.out.println(PURPLE + "   | |  | |__| | |      | (___  _ __  _ _ __   ___ _ __ ");
-        AnsiConsole.out.println(PURPLE + "   | |  |  __  | |       \\___ \\| '_ \\| | '_ \\ / _ \\ '__|");
-        AnsiConsole.out.println(PURPLE + "   | |  | |  | | |____   ____) | | | | | |_) |  __/ |   ");
-        AnsiConsole.out.println(PURPLE + "   |_|  |_|  |_|\\_____| |_____/|_| |_|_| .__/ \\___|_|   ");
-        AnsiConsole.out.println(PURPLE + "   by smoke#1337                       | |              ");
-        AnsiConsole.out.println(PURPLE + "                                       |_|              " + WHITE);
-        AnsiConsole.out.println("\n");
+
+        String[] fancy = {" _______ _    _  _____    _____       _                 ","|__   __| |  | |/ ____|  / ____|     (_)                ","   | |  | |__| | |      | (___  _ __  _ _ __   ___ _ __ ","   | |  |  __  | |       \\___ \\| '_ \\| | '_ \\ / _ \\ '__|","   | |  | |  | | |____   ____) | | | | | |_) |  __/ |   ","   |_|  |_|  |_|\\_____| |_____/|_| |_|_| .__/ \\___|_|   ","   by smoke#1337                       | |              ","                                       |_|              "};
+
+        for(String line:fancy){
+
+            for(char c:line.toCharArray()){
+                AnsiConsole.out.print(PURPLE + c);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            AnsiConsole.out.print("\n");
+
+        }
+        AnsiConsole.out.print(WHITE + "\n");
+
     }
 
 
-    public static final String RESET = "\u001B[0m";
+
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
     public static final String YELLOW = "\u001B[33m";
