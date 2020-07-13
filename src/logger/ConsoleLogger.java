@@ -39,7 +39,16 @@ public class ConsoleLogger {
         for(String line:fancy){
 
             for(char c:line.toCharArray()){
-                AnsiConsole.out.print(PURPLE + c);
+
+
+                if(!(c == '_' || c == ' ' || c == '|'|| c == '/'|| c == '\\'|| c == '(' || c == ')' || c == '\'' || c == '.') ){
+
+                    AnsiConsole.out.print(GREEN + c);
+
+                }else{
+                    AnsiConsole.out.print(PURPLE + c);
+                }
+
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
