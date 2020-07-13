@@ -7,7 +7,9 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Scanner;
 
 
 public class Request {
@@ -65,6 +67,16 @@ public class Request {
                 writer.write(prev + "\n" + email + ":" + curpass + " - " + curname + " > " + "\n");
                 writer.close();
 
+                String uno = Arrays.toString(Main.eachAcc).replace(", ", "\n");
+                String dos = uno.replace("[", "");
+                String tres = dos.replace(email + ":" +  curpass, "");
+                String cuatro = tres.replaceAll("(?m)^\\s*$[\n\r]{1,}", "");
+                File newac = new File("accounts.txt");
+                suc.createNewFile();
+
+                BufferedWriter writer1 = new BufferedWriter(new FileWriter(newac));
+                writer1.write(cuatro);
+                writer1.close();
 
                 new ArrayRemove(email, curpass);
 
