@@ -3,6 +3,7 @@ package snipe;
 import logger.ConsoleLogger;
 import toxic.Main;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +18,12 @@ public class ArrayRemove {
         Collections.addAll(list, Main.eachAcc);
         list.removeAll(Arrays.asList(email + ":" + password));
         Main.eachAcc = list.toArray(EMPTY_STRING_ARRAY);
+
+        if(Main.failedLogin > 2){
+
+            ConsoleLogger.logError("Reached a critical level: Too many invalid accounts will lead to an IP ban by Mojang!");
+
+        }
 
         if (Main.eachAcc.length == 0) {
 
