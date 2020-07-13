@@ -45,6 +45,7 @@ public class Snipe {
             byte[] input1 = jsonHash.getBytes("utf-8");
             oso.write(input1, 0, input1.length);
         }
+        
 
         if (conh.getResponseCode() == 200) {
             String jsonResponse1;
@@ -168,7 +169,7 @@ public class Snipe {
 
                 }else{
 
-                    ConsoleLogger.logFailed(email + " couldn't prepare in time.",curname);
+                    ConsoleLogger.logFailed(email + " couldn't prepare in time.", curname);
 
                 }
 
@@ -200,7 +201,7 @@ public class Snipe {
 
         } else {
 
-
+            Main.failedLogin++;
             ConsoleLogger.logFailed("Account seems to be invalid: " + email + ":" + masked, curname);
 
             new ArrayRemove(email, password);
