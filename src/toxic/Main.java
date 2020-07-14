@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.TimeZone;
 
 public class Main {
-    
+
     public static String captchakeyst = "";
     public static String webHookURL = "";
 

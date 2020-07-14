@@ -2,6 +2,8 @@ package snipe;
 
 import logger.ConsoleLogger;
 import toxic.Main;
+import webhook.checkHook;
+import webhook.sendMessage;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -50,6 +52,9 @@ public class Request {
                 ConsoleLogger.logName("Response 204: Username changed. Timing: " + formatter.format(date) + "/" + formatter.format(date1), curname);
                 ConsoleLogger.logSuccess("Username sniped on account: " + email + ":" + masked, curname);
 
+                if(!Main.webHookURL.equals("NONE") && checkHook.check(Main.webHookURL)) {
+                    new sendMessage(Main.webHookURL, ":white_check_mark: | Successfully sniped username **'" + curname + "'** onto **" + email + "**.");
+                }
 
                 File suc = new File("success.txt");
                 suc.createNewFile();
