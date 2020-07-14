@@ -54,17 +54,14 @@ public class Request {
                 File suc = new File("success.txt");
                 suc.createNewFile();
                 String prev = "";
-                @SuppressWarnings("resource")
-                Scanner myReader = new Scanner(suc);
-                while (myReader.hasNextLine()) {
-                    if (!prev.isEmpty()) {
-                        prev = prev + "\n" + myReader.nextLine();
-                    } else {
-                        prev = myReader.nextLine();
-                    }
+                Scanner accReader = new Scanner(suc);
+                while (accReader.hasNextLine()) {
+                    prev = prev + accReader.nextLine() + "\n";
+
                 }
+                
                 BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-                writer.write(prev + "\n" + email + ":" + curpass + " - " + curname + " > " + "\n");
+                writer.write(prev + "\n" + email + ":" + curpass + " - " + curname);
                 writer.close();
 
 
