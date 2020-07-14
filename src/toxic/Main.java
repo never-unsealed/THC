@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.TimeZone;
 
 public class Main {
-
+    
     public static String captchakeyst = "";
     public static String webHookURL = "";
 
@@ -100,7 +100,6 @@ public class Main {
             }catch(ArrayIndexOutOfBoundsException e){
 
                 ConsoleLogger.logError("Config file is corrupted, please delete it.");
-                e.printStackTrace();
                 System.exit(1);
 
             }
