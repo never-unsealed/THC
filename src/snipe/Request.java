@@ -2,14 +2,12 @@ package snipe;
 
 import logger.ConsoleLogger;
 import toxic.Main;
-import webhook.CheckHook;
 import webhook.SendMessage;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -52,8 +50,8 @@ public class Request {
                 ConsoleLogger.logName("Response 204: Username changed. Timing: " + formatter.format(date) + "/" + formatter.format(date1), curname);
                 ConsoleLogger.logSuccess("Username sniped on account: " + email + ":" + masked, curname);
 
-                if(!Main.webHookURL.equals("NONE") && CheckHook.check(Main.webHookURL)) {
-                    new SendMessage(Main.webHookURL, ":white_check_mark: | Successfully sniped username **'" + curname + "'** onto **" + email + "**.");
+                if(!Main.webHookURL.equals("NONE") && Main.webHookURL.startsWith("https://discordapp.com/api/webhooks/") || Main.webHookURL.startsWith("http://discordapp.com/api/webhooks/")) {
+                        new SendMessage(Main.webHookURL, ":white_check_mark: | Successfully sniped username **'" + curname + "'** onto **" + email + "**.");
                 }
 
 

@@ -45,7 +45,7 @@ public class Snipe {
             byte[] input1 = jsonHash.getBytes("utf-8");
             oso.write(input1, 0, input1.length);
         }
-        
+
 
         if (conh.getResponseCode() == 200) {
             String jsonResponse1;
