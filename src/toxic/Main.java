@@ -13,6 +13,7 @@ import java.util.TimeZone;
 public class Main {
     
     public static String captchakeyst = "";
+    public static String webHookURL = "";
 
     public static String[] eachAcc;
 
@@ -41,8 +42,8 @@ public class Main {
             File accounts = new File("accounts.txt");
             accounts.createNewFile();
 
-            File captchakey = new File("captchakey.txt");
-            captchakey.createNewFile();
+            File configfile = new File("config.txt");
+            configfile.createNewFile();
 
 
             String accs = "";
@@ -52,57 +53,86 @@ public class Main {
 
             }
 
-            Scanner ckReader = new Scanner(captchakey);
+            String configfull = "";
+            Scanner ckReader = new Scanner(configfile);
             while (ckReader.hasNextLine()) {
-                captchakeyst = ckReader.nextLine();
+                configfull = ckReader.nextLine();
             }
 
-            if (captchakeyst.isEmpty()) {
+            if (configfull.isEmpty()) {
 
-                ConsoleLogger.logError("No captcha key found - please get an api token from 2captcha.com and paste it into captchakey.txt");
+                BufferedWriter writer = new BufferedWriter(new FileWriter(configfile));
+                writer.write("CaptchaKey='NONE' \n TimeDifference='0' \n WebhookURL='NONE'".replaceAll(" ", ""));
+                writer.close();
+
+
+            }
+
+
+
+            String config = "";
+            Scanner confReader = new Scanner(configfile);
+            while (confReader.hasNextLine()) {
+                config = config + confReader.nextLine();
+
+            }
+
+            try{
+
+                String[] captchakey = config.split("CaptchaKey='");
+                captchakeyst = captchakey[1].split("'")[0];
+
+                String[] timedifference = config.split("TimeDifference='");
+                try{
+
+                    timeadjust = Long.parseLong(timedifference[1].split("'")[0]);
+
+                }catch(NumberFormatException e){
+
+                    ConsoleLogger.logError("Invalid value for time difference (check config file)");
+                    System.exit(1);
+                }
+
+                String[] webhook = config.split("WebhookURL='");
+                webHookURL = webhook[1].split("'")[0];
+
+
+            }catch(ArrayIndexOutOfBoundsException e){
+
+                ConsoleLogger.logError("Config file is corrupted, please delete it.");
+                e.printStackTrace();
                 System.exit(1);
 
             }
 
-            if (accs.isEmpty()) {
+            if(captchakeyst.equals("NONE")){
 
-                ConsoleLogger.logError("No MC accounts found - please add accounts to accounts.txt in email:password format");
+                ConsoleLogger.logError("No captcha key found, please paste it into config.txt (Parameter: CaptchaKey)");
                 System.exit(1);
 
             }
+
+
 
 
             eachAcc = accs.split("\n");
             ConsoleLogger.logInfo("Loaded " + eachAcc.length + " account(s)!");
             ConsoleLogger.logInfo("Loaded captcha key!");
+            ConsoleLogger.logInfo("Adjusted time by " + timeadjust + "ms");
+            if(webHookURL.equals("NONE")){
 
+                ConsoleLogger.logInfo("Not using a webhook");
+
+            }else{
+
+                ConsoleLogger.logInfo("Using a custom webhook");
+
+            }
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
             Date date = new Date(System.currentTimeMillis());
             ConsoleLogger.logInfo("Current time:" + formatter.format(date) + "\n");
 
-            ConsoleLogger.logInput("Please check if your local time is accurate on https://time.is" + "\n");
-            ConsoleLogger.logInput("Do you want to adjust your time? (y/n) ");
-            BufferedReader bryt = new BufferedReader(new InputStreamReader(System.in));
-            String gotyt = bryt.readLine();
-
-            if (gotyt.equals("y")) {
-
-                ConsoleLogger.logInput("Please enter time difference in milliseconds (i.e. '-400' if you're 400ms ahead) ");
-                BufferedReader brta = new BufferedReader(new InputStreamReader(System.in));
-                String gotta = brta.readLine();
-                try {
-                    timeadjust = Long.parseLong(gotta);
-                } catch (NumberFormatException e) {
-
-                    ConsoleLogger.logError("Invalid value!");
-                    System.exit(1);
-
-                }
-
-            }
-
-            System.out.print("\n");
             ConsoleLogger.logInput("Select mode:" + "\n");
             ConsoleLogger.logInput("1: Manual sniper" + "\n");
             ConsoleLogger.logInput("2: Auto mode (3-char)" + "\n");
