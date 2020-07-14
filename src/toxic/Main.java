@@ -64,6 +64,8 @@ public class Main {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(configfile));
                 writer.write("CaptchaKey='NONE' \n TimeDifference='0' \n WebhookURL='NONE'".replaceAll(" ", ""));
                 writer.close();
+                ConsoleLogger.logInfo("Successfully generated config file, please enter required information and restart the bot.");
+                System.exit(1);
 
 
             }
@@ -108,6 +110,14 @@ public class Main {
 
                 ConsoleLogger.logError("No captcha key found, please paste it into config.txt (Parameter: CaptchaKey)");
                 System.exit(1);
+
+            }
+
+            if(accs.isEmpty()){
+
+                ConsoleLogger.logError("No MC accounts found, please add them to accounts.txt in email:password format.");
+                System.exit(1);
+
 
             }
 
