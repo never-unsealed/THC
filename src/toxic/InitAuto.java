@@ -2,7 +2,7 @@ package toxic;
 
 import logger.ConsoleLogger;
 import snipe.ActivityCheck;
-import snipe.Calculator;
+import snipe.PingCheck;
 import snipe.Snipe;
 
 import java.io.BufferedReader;
@@ -123,37 +123,25 @@ public class InitAuto {
                         activity.start();
 
                         Main.failedLogin = 0;
-                        Main.avgRunTime = 0;
+                        Main.ping = 0;
 
-                        ConsoleLogger.logName("Starting network and performance test!", name[1]);
 
                         for (int i = 0; i < 5; i++) {
 
                             try {
-                                new Calculator(name[1]);
-                                Thread.sleep(4000);
+                                new PingCheck(name[1]);
+                                Thread.sleep(1500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
 
-
                         }
 
-                        ConsoleLogger.logName("Total test time:" + Main.avgRunTime + "ms", name[1]);
+                        long average = Main.ping / 5;
 
-                        long average = Main.avgRunTime / 5;
+                        ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms" + "\n", name[1]);
 
-                        ConsoleLogger.logName("Average time for Ion Cannon completion:" + average + "ms", name[1]);
-
-                        long before = average * 42 / 100;
-                        if (before < 50 || before > 1000) {
-
-                            ConsoleLogger.logName("Results might be corrupted. Correcting...", name[1]);
-                            before = 350;
-
-                        }
-
-                        ConsoleLogger.logName("Will launch Ion Cannon " + before + "ms before release time." + "\n", name[1]);
+                        long before = average;
 
 
 

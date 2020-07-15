@@ -18,7 +18,7 @@ public class Main {
     public static String[] eachAcc;
 
     public static long timeadjust = 0;
-    public static long avgRunTime = 0;
+    public static long ping = 0;
     public static long failedLogin = 0;
 
     public static boolean isActive = false;
@@ -31,7 +31,7 @@ public class Main {
 
         if (args.length > 0) {
 
-            double version = 4.1;
+            double version = 4.3;
 
             new ProcessBuilder("cmd", "/c", "title THC v" + version).inheritIO().start().waitFor();
             TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
@@ -106,9 +106,9 @@ public class Main {
 
             }
 
-            if(captchakeyst.equals("NONE")){
+            if(captchakeyst.equals("NONE") || captchakeyst.length() != 32){
 
-                ConsoleLogger.logError("No captcha key found, please paste it into config.txt (Parameter: CaptchaKey)");
+                ConsoleLogger.logError("No captcha key or invalid key detected, please paste it into config.txt (Parameter: CaptchaKey)");
                 System.exit(1);
 
             }

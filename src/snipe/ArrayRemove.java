@@ -20,7 +20,7 @@ public class ArrayRemove {
         Main.eachAcc = list.toArray(EMPTY_STRING_ARRAY);
 
         String uno = Arrays.toString(Main.eachAcc).replace(", ", "\n");
-        String dos = uno.replace("[", "");
+        String dos = uno.replaceAll("[\\[\\]]", "");
         String tres = dos.replace(email + ":" +  password, "");
         String cuatro = tres.replaceAll("(?m)^\\s*$[\n\r]{1,}", "");
         File newac = new File("accounts.txt");

@@ -1,7 +1,7 @@
 package toxic;
 
 import logger.ConsoleLogger;
-import snipe.Calculator;
+import snipe.PingCheck;
 import snipe.Snipe;
 
 import java.io.BufferedReader;
@@ -65,34 +65,21 @@ public class InitManual {
                 ConsoleLogger.logName("Starting snipe...", got1);
 
                 Main.failedLogin = 0;
-                Main.avgRunTime = 0;
+                Main.ping = 0;
 
-                ConsoleLogger.logName("Starting network and performance test!", got1);
 
                 for (int i = 0; i < 5; i++) {
 
-                    new Calculator(got1);
-                    Thread.sleep(4000);
+                    new PingCheck(got1);
+                    Thread.sleep(1500);
 
                 }
 
-                ConsoleLogger.logName("Total test time:" + Main.avgRunTime + "ms", got1);
+                long average = Main.ping / 5;
 
-                long average = Main.avgRunTime / 5;
+                ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms" + "\n", got1);
 
-                ConsoleLogger.logName("Average time for Ion Cannon completion:" + average + "ms", got1);
-
-                long before = average * 42 / 100;
-                if (before < 50 || before > 1000) {
-
-                    ConsoleLogger.logName("Results might be corrupted. Correcting...", got1);
-                    before = 350;
-
-                }
-
-                ConsoleLogger.logName("Will launch Ion Cannon " + before + "ms before release time." + "\n", got1);
-
-
+                long before = average;
 
 
                 for (String comb: Main.eachAcc) {
@@ -100,21 +87,19 @@ public class InitManual {
 
 
                     long finalBefore = before;
-                    Thread t = new Thread(new Runnable() {
-                        public void run() {
+                    Thread t = new Thread(() -> {
 
-                            String[] combination = comb.split(":");
-                            String email = combination[0];
-                            String password = combination[1];
-                            int retries = 0;
+                        String[] combination = comb.split(":");
+                        String email = combination[0];
+                        String password = combination[1];
+                        int retries = 0;
 
-                            try {
-                                new Snipe(email, password, got1, got2, retries, finalBefore);
-                            } catch (IOException | InterruptedException | ParseException e) {
-                                e.printStackTrace();
-                            }
-
+                        try {
+                            new Snipe(email, password, got1, got2, retries, finalBefore);
+                        } catch (IOException | InterruptedException | ParseException e) {
+                            e.printStackTrace();
                         }
+
                     });
 
                     t.start();
@@ -183,32 +168,21 @@ public class InitManual {
                 ConsoleLogger.logName("Starting snipe...", got1);
 
                 Main.failedLogin = 0;
-                Main.avgRunTime = 0;
+                Main.ping = 0;
 
-                ConsoleLogger.logName("Starting network and performance test!", got1);
 
                 for (int i = 0; i < 5; i++) {
 
-                    new Calculator(got1);
-                    Thread.sleep(4000);
+                    new PingCheck(got1);
+                    Thread.sleep(1500);
 
                 }
 
-                ConsoleLogger.logName("Total test time:" + Main.avgRunTime + "ms", got1);
+                long average = Main.ping / 5;
 
-                long average = Main.avgRunTime / 5;
+                ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms", got1);
 
-                ConsoleLogger.logName("Average time for Ion Cannon completion:" + average + "ms", got1);
-
-                long before = average * 42 / 100;
-                if (before < 50 || before > 1000) {
-
-                    ConsoleLogger.logName("Results might be corrupted. Correcting...", got1);
-                    before = 350;
-
-                }
-
-                ConsoleLogger.logName("Will launch Ion Cannon " + before + "ms before release time." + "\n", got1);
+                long before = average;
 
                 for (String comb: Main.eachAcc) {
 

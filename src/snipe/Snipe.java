@@ -13,6 +13,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Snipe {
 
@@ -118,6 +120,28 @@ public class Snipe {
 
                 ConsoleLogger.logName("Successfully authenticated account: " + email + ":" + masked, curname);
 
+                String finalMasked = masked;
+                Runnable request = () -> new Request(uhash, oauth, curname, password, email, finalMasked);
+                ExecutorService ic = Executors.newFixedThreadPool(25);
+
+                long wait;
+
+                if(Main.eachAcc.length > 5){
+
+                    Random r = new Random();
+                    int low = 5;
+                    int high = 15;
+                    int result = r.nextInt(high - low) + low;
+
+                    wait = result;
+
+                }else{
+
+                    wait = 20;
+
+
+                }
+
                 Date d1 = null;
                 Date d2 = null;
 
@@ -133,36 +157,23 @@ public class Snipe {
                 long diff = d2.getTime() - d1.getTime();
 
 
-                if ((diff - before + Main.timeadjust) > 0) {
-                    Thread.sleep(diff - before + Main.timeadjust);
-
-                    int tnow = Thread.activeCount();
+                if ((diff - 500 + before + Main.timeadjust) > 0) {
 
 
+                    Thread.sleep(diff - 500 - before + Main.timeadjust);
 
                     ConsoleLogger.logName("Starting Ion Cannon for " + email, curname);
 
                     for (int i = 0; i < 25; i++) {
 
-
-                        String finalMasked = masked;
-                        Thread t = new Thread(new Runnable() {
-                            public void run() {
-
-                                new Request(uhash, oauth, curname, password, email, finalMasked);
-
-
-                            }
-
-                        });
-
-                        t.start();
-                        Thread.sleep(20);
-
+                        ic.execute(request);
+                        Thread.sleep(wait);
 
                     }
 
-                    while (Thread.activeCount() != tnow);
+                    Thread.sleep(2000);
+                    ic.shutdown();
+                    while(!ic.isTerminated());
 
 
                     ConsoleLogger.logName("Finished Ion Cannon for " + email, curname);

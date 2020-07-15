@@ -18,11 +18,13 @@ public class SendMessage {
 
             conn.setDoOutput(true);
             OutputStream os = conn.getOutputStream();
-            String content = "content=" + message;
+            String content = "username=THC Sniper&avatar_url=https://64.media.tumblr.com/c1a79db29d7af5772c9a0d135162ed2d/tumblr_mteceqBOTn1qe26n9o1_500.jpg&content=" + message;
             os.write(content.getBytes());
 
             os.flush();
             os.close();
+
+            conn.getResponseCode();
 
 
 
