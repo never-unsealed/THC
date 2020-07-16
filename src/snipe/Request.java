@@ -57,7 +57,7 @@ public class Request {
                     String prev = "";
                     Scanner accReader = new Scanner(suc);
                     while (accReader.hasNextLine()) {
-                        prev = prev + accReader.nextLine() + "\n";
+                        prev = prev + accReader.nextLine();
 
                     }
 
