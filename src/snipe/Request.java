@@ -62,7 +62,15 @@ public class Request {
                     }
 
                     BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-                    writer.write(prev + "\n" + email + ":" + curpass + " - " + curname);
+                    if(prev.isEmpty()){
+
+                        writer.write(email + ":" + curpass + " - " + curname);
+
+                    }else{
+
+                        writer.write(prev + "\n" + email + ":" + curpass + " - " + curname);
+
+                    }
                     writer.close();
 
 
