@@ -52,13 +52,12 @@ public class ConsoleLogger {
 
 
                 System.out.print(PURPLE + c);
-                Thread.sleep(5);
             }else{
 
                 System.out.print(GREEN + c);
-                Thread.sleep(5);
 
             }
+            Thread.sleep(5);
 
 
         }
