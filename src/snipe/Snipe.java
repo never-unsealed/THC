@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -44,7 +45,7 @@ public class Snipe {
 
 
         try (OutputStream oso = conh.getOutputStream()) {
-            byte[] input1 = jsonHash.getBytes("utf-8");
+            byte[] input1 = jsonHash.getBytes(StandardCharsets.UTF_8);
             oso.write(input1, 0, input1.length);
         }
 
@@ -52,9 +53,9 @@ public class Snipe {
         if (conh.getResponseCode() == 200) {
             String jsonResponse1;
 
-            try (BufferedReader br1 = new BufferedReader(new InputStreamReader(conh.getInputStream(), "utf-8"))) {
+            try (BufferedReader br1 = new BufferedReader(new InputStreamReader(conh.getInputStream(), StandardCharsets.UTF_8))) {
                 StringBuilder response1 = new StringBuilder();
-                String responseLine1 = null;
+                String responseLine1;
                 while ((responseLine1 = br1.readLine()) != null) {
                     response1.append(responseLine1.trim());
                 }
@@ -94,7 +95,7 @@ public class Snipe {
 
 
             try (OutputStream os = con.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
 
@@ -102,9 +103,9 @@ public class Snipe {
 
             try {
 
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
                     StringBuilder response = new StringBuilder();
-                    String responseLine = null;
+                    String responseLine;
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
@@ -131,9 +132,8 @@ public class Snipe {
                     Random r = new Random();
                     int low = 5;
                     int high = 15;
-                    int result = r.nextInt(high - low) + low;
 
-                    wait = result;
+                    wait = r.nextInt(high - low) + low;
 
                 }else{
 

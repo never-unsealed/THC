@@ -35,8 +35,6 @@ public class InitSnipe {
         for (String comb: Main.eachAcc) {
 
 
-
-            long finalBefore = before;
             Thread t = new Thread(() -> {
 
                 String[] combination = comb.split(":");
@@ -45,7 +43,7 @@ public class InitSnipe {
                 int retries = 0;
 
                 try {
-                    new Snipe(email, password, curname, fdate, retries, finalBefore);
+                    new Snipe(email, password, curname, fdate, retries, before);
                 } catch (IOException | InterruptedException | ParseException e) {
                     e.printStackTrace();
                 }

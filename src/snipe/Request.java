@@ -7,6 +7,7 @@ import webhook.SendMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -32,7 +33,7 @@ public class Request {
                 String jsonInputString = "{\"name\":\"" + curname + "\",\"password\":\"" + curpass + "\"}";
 
                 try (OutputStream os = con.getOutputStream()) {
-                    byte[] input = jsonInputString.getBytes("utf-8");
+                    byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
                     os.write(input, 0, input.length);
                 }
 

@@ -1,26 +1,19 @@
 package toxic;
 
 import logger.ConsoleLogger;
-import snipe.PingCheck;
-import snipe.Snipe;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class InitManual {
 
-    public void startsnipe(){
-
-
-
-    }
 
     public InitManual(String submode) throws IOException {
 
@@ -82,7 +75,7 @@ public class InitManual {
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             connection.connect();
 
-            BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
+            BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
 
             StringBuilder sb = new StringBuilder();
             String line;

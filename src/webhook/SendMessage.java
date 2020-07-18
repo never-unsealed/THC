@@ -28,7 +28,7 @@ public class SendMessage {
 
 
 
-        } catch(Exception ex) {
+        } catch(Exception ignored) {
 
         }
 

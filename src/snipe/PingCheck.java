@@ -4,18 +4,11 @@ import logger.ConsoleLogger;
 import toxic.Main;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class PingCheck {
 
-    public PingCheck() throws InterruptedException {
+    public PingCheck() {
 
 
 

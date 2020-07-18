@@ -41,7 +41,7 @@ public class ConsoleLogger {
                     Thread.sleep(5);
             }
 
-            if(line != "   ╚═╝   ╚═╝  ╚═╝ ╚═════╝    ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝")
+            if(!line.equals("   ╚═╝   ╚═╝  ╚═╝ ╚═════╝    ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝"))
 
             System.out.print("\n");
 
