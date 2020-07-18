@@ -48,8 +48,18 @@ public class ConsoleLogger {
         }
         for(char c:author.toCharArray()){
 
-            System.out.print(GREEN + c);
-            Thread.sleep(5);
+            if(c == '#' || c == '1' || c == '3' || c == '7') {
+
+
+                System.out.print(PURPLE + c);
+                Thread.sleep(5);
+            }else{
+
+                System.out.print(GREEN + c);
+                Thread.sleep(5);
+
+            }
+
 
         }
 
