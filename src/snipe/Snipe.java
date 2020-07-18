@@ -68,7 +68,7 @@ public class Snipe {
             String[] hash2 = hash1[1].split("\"");
             String uhash = hash2[0];
 
-            String responseToken = null;
+            String responseToken;
 
 
 
@@ -142,16 +142,15 @@ public class Snipe {
 
                 }
 
-                Date d1 = null;
-                Date d2 = null;
+
 
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
                 Date date = new Date(System.currentTimeMillis());
                 String currentime = format.format(date);
 
 
-                d1 = format.parse(currentime);
-                d2 = format.parse(fdate + ".000");
+                Date d1 = format.parse(currentime);
+                Date d2 = format.parse(fdate + ".000");
 
 
                 long diff = d2.getTime() - d1.getTime();

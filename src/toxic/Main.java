@@ -145,6 +145,7 @@ public class Main {
             ConsoleLogger.logInput("Select mode:" + "\n");
             ConsoleLogger.logInput("1: Manual sniper" + "\n");
             ConsoleLogger.logInput("2: Auto mode (3-char)" + "\n");
+            ConsoleLogger.logInput("3: Auto mode (>100 views)" + "\n");
             ConsoleLogger.logInput("Mode: ");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String got = br.readLine();
@@ -158,10 +159,10 @@ public class Main {
 
 
 
-            } else if (got.equals("2")) {
+            } else if (got.equals("2") || got.equals("3")) {
 
 
-                new InitAuto();
+                new InitAuto(got);
 
 
             } else {

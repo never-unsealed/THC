@@ -17,12 +17,23 @@ import java.util.Date;
 
 public class InitAuto {
 
-    public InitAuto() throws ParseException, IOException {
+    public InitAuto(String submode) throws ParseException, IOException {
 
 
         ConsoleLogger.logInfo("Retrieving names..." + "\n");
 
-        URLConnection connection = new URL("https://namemc.com/minecraft-names?length_op=eq&length=3").openConnection();
+        URLConnection connection = null;
+
+        if(submode.equals("2")){
+
+            connection = new URL("https://namemc.com/minecraft-names?length_op=eq&length=3").openConnection();
+
+        }else if(submode.equals("3")){
+
+            connection = new URL("https://namemc.com/minecraft-names?length_op=&length=3&lang=&searches=100").openConnection();
+
+        }
+
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
         connection.connect();
 
@@ -91,95 +102,86 @@ public class InitAuto {
 
 
 
-            Thread t = new Thread(new Runnable() {
-                public void run() {
+            Thread t = new Thread(() -> {
 
 
-                    ConsoleLogger.logInfo("Thread for username '" + name[1] + "' started. " + totalsecond + "s remaining");
+                ConsoleLogger.logInfo("Thread for username '" + name[1] + "' started. " + totalsecond + "s remaining");
 
 
 
-                    if (((totalsecond * 1000) - 300000) > 0) {
+                if (((totalsecond * 1000) - 300000) > 0) {
+                    try {
+                        Thread.sleep((totalsecond * 1000) - 300000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (!Main.isActive) {
+
+
+                    System.out.println("\n");
+                    ConsoleLogger.logName("Starting snipe...", name[1]);
+
+                    Thread activity = new Thread(() -> new ActivityCheck());
+                    activity.start();
+
+                    Main.failedLogin = 0;
+                    Main.ping = 0;
+
+
+                    for (int i = 0; i < 5; i++) {
+
                         try {
-                            Thread.sleep((totalsecond * 1000) - 300000);
+                            new PingCheck(name[1]);
+                            Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
                     }
 
-                    if (!Main.isActive) {
+                    long average = Main.ping / 5;
 
+                    ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms" + "\n", name[1]);
 
-                        System.out.println("\n");
-                        ConsoleLogger.logName("Starting snipe...", name[1]);
-
-                        Thread activity = new Thread(new Runnable() {
-                            public void run() {
-
-                                new ActivityCheck();
-
-                            }
-                        });
-                        activity.start();
-
-                        Main.failedLogin = 0;
-                        Main.ping = 0;
-
-
-                        for (int i = 0; i < 5; i++) {
-
-                            try {
-                                new PingCheck(name[1]);
-                                Thread.sleep(1500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        long average = Main.ping / 5;
-
-                        ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms" + "\n", name[1]);
-
-                        long before = average;
+                    long before = average;
 
 
 
-                        for (String comb: Main.eachAcc) {
-                            try {
-                                long finalBefore = before;
-                                Thread t = new Thread(new Runnable() {
-                                    public void run() {
+                    for (String comb: Main.eachAcc) {
+                        try {
+                            long finalBefore = before;
+                            Thread t1 = new Thread(new Runnable() {
+                                public void run() {
 
-                                        String[] combination = comb.split(":");
-                                        String email = combination[0];
-                                        String password = combination[1];
-                                        int retries = 0;
+                                    String[] combination = comb.split(":");
+                                    String email = combination[0];
+                                    String password = combination[1];
+                                    int retries = 0;
 
-                                        try {
-                                            new Snipe(email, password, name[1], releasetime, retries, finalBefore);
-                                        } catch (IOException | InterruptedException | ParseException e) {
-                                            e.printStackTrace();
-                                        }
-
+                                    try {
+                                        new Snipe(email, password, name[1], releasetime, retries, finalBefore);
+                                    } catch (IOException | InterruptedException | ParseException e) {
+                                        e.printStackTrace();
                                     }
-                                });
-                                t.start();
 
-                            } catch (ArrayIndexOutOfBoundsException e) {
+                                }
+                            });
+                            t1.start();
 
-                                continue;
+                        } catch (ArrayIndexOutOfBoundsException e) {
 
-                            }
-
+                            continue;
 
                         }
 
-                    } else {
-
-                        ConsoleLogger.logName("Another snipe is active already", name[1]);
 
                     }
+
+                } else {
+
+                    ConsoleLogger.logName("Another snipe is active already", name[1]);
 
                 }
 

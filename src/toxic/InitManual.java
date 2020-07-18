@@ -188,21 +188,20 @@ public class InitManual {
 
 
                     long finalBefore = before;
-                    Thread t = new Thread(new Runnable() {
-                        public void run() {
+                    Thread t = new Thread(() -> {
 
-                            String[] combination = comb.split(":");
-                            String email = combination[0];
-                            String password = combination[1];
-                            int retries = 0;
+                        String[] combination = comb.split(":");
+                        String email = combination[0];
+                        String password = combination[1];
+                        int retries = 0;
 
-                            try {
-                                new Snipe(email, password, got1, releasetime, retries, finalBefore);
-                            } catch (IOException | InterruptedException | ParseException e) {
-                                e.printStackTrace();
-                            }
+                        try {
+                            new Snipe(email, password, got1, releasetime, retries, finalBefore);
+                        } catch (IOException | InterruptedException | ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                        }});
+                    });
                     t.start();
 
 
