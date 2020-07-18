@@ -119,64 +119,13 @@ public class InitAuto {
 
                 if (!Main.isActive) {
 
-
-                    System.out.println("\n");
-                    ConsoleLogger.logName("Starting snipe...", name[1]);
-
-                    Thread activity = new Thread(() -> new ActivityCheck());
+                    Thread activity = new Thread(ActivityCheck::new);
                     activity.start();
 
-                    Main.failedLogin = 0;
-                    Main.ping = 0;
-
-
-                    for (int i = 0; i < 5; i++) {
-
-                        try {
-                            new PingCheck(name[1]);
-                            Thread.sleep(1500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    long average = Main.ping / 5;
-
-                    ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms" + "\n", name[1]);
-
-                    long before = average;
-
-
-
-                    for (String comb: Main.eachAcc) {
-                        try {
-                            long finalBefore = before;
-                            Thread t1 = new Thread(new Runnable() {
-                                public void run() {
-
-                                    String[] combination = comb.split(":");
-                                    String email = combination[0];
-                                    String password = combination[1];
-                                    int retries = 0;
-
-                                    try {
-                                        new Snipe(email, password, name[1], releasetime, retries, finalBefore);
-                                    } catch (IOException | InterruptedException | ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            });
-                            t1.start();
-
-                        } catch (ArrayIndexOutOfBoundsException e) {
-
-                            continue;
-
-                        }
-
-
+                    try {
+                        new InitSnipe(name[1],releasetime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
 
                 } else {

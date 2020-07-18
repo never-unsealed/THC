@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public class PingCheck {
 
-    public PingCheck(String curname) throws InterruptedException {
+    public PingCheck() throws InterruptedException {
 
 
 

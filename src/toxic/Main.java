@@ -31,7 +31,7 @@ public class Main {
 
         if (args.length > 0) {
 
-            double version = 4.3;
+            double version = 4.5;
 
             new ProcessBuilder("cmd", "/c", "title THC v" + version).inheritIO().start().waitFor();
             TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
@@ -146,15 +146,16 @@ public class Main {
             ConsoleLogger.logInput("1: Manual sniper" + "\n");
             ConsoleLogger.logInput("2: Auto mode (3-char)" + "\n");
             ConsoleLogger.logInput("3: Auto mode (>100 views)" + "\n");
+            ConsoleLogger.logInput("4: Turbo mode" + "\n");
             ConsoleLogger.logInput("Mode: ");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String got = br.readLine();
 
-            if (got.equals("1")) {
+            if (got.equals("1") || got.equals("4")) {
 
 
 
-                new InitManual();
+                new InitManual(got);
 
 
 

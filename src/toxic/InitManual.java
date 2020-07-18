@@ -16,17 +16,20 @@ import java.util.Date;
 
 public class InitManual {
 
-    public InitManual() throws IOException {
+    public void startsnipe(){
+
+
+
+    }
+
+    public InitManual(String submode) throws IOException {
 
         ConsoleLogger.logInput("Enter name: ");
         BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
         String got1 = br1.readLine();
 
-        ConsoleLogger.logInput("Turbo mode? (y/n) ");
-        BufferedReader br3 = new BufferedReader(new InputStreamReader(System.in));
-        String got3 = br3.readLine();
 
-        if (got3.equals("y")) {
+        if (submode.equals("4")) {
 
             ConsoleLogger.logInput("Enter exact date (GMT)(mm/dd/yyyy hh:mm:ss): ");
             BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
@@ -61,54 +64,7 @@ public class InitManual {
                 }
 
 
-                System.out.println("\n");
-                ConsoleLogger.logName("Starting snipe...", got1);
-
-                Main.failedLogin = 0;
-                Main.ping = 0;
-
-
-                for (int i = 0; i < 5; i++) {
-
-                    new PingCheck(got1);
-                    Thread.sleep(1500);
-
-                }
-
-                long average = Main.ping / 5;
-
-                ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms" + "\n", got1);
-
-                long before = average;
-
-
-                for (String comb: Main.eachAcc) {
-
-
-
-                    long finalBefore = before;
-                    Thread t = new Thread(() -> {
-
-                        String[] combination = comb.split(":");
-                        String email = combination[0];
-                        String password = combination[1];
-                        int retries = 0;
-
-                        try {
-                            new Snipe(email, password, got1, got2, retries, finalBefore);
-                        } catch (IOException | InterruptedException | ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                    });
-
-                    t.start();
-
-
-                }
-
-
-
+                new InitSnipe(got1, got2);
 
 
             } catch (ParseException | InterruptedException e) {
@@ -120,7 +76,7 @@ public class InitManual {
 
 
 
-        } else if (got3.equals("n")) {
+        } else if (submode.equals("1")) {
 
             URLConnection connection = new URL("https://namemc.com/name/" + got1).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
@@ -164,49 +120,7 @@ public class InitManual {
                     Thread.sleep(diff - 300000);
                 }
 
-                System.out.println("\n");
-                ConsoleLogger.logName("Starting snipe...", got1);
-
-                Main.failedLogin = 0;
-                Main.ping = 0;
-
-
-                for (int i = 0; i < 5; i++) {
-
-                    new PingCheck(got1);
-                    Thread.sleep(1500);
-
-                }
-
-                long average = Main.ping / 5;
-
-                ConsoleLogger.logName("Average ping to Mojang API:" + average + "ms", got1);
-
-                long before = average;
-
-                for (String comb: Main.eachAcc) {
-
-
-                    long finalBefore = before;
-                    Thread t = new Thread(() -> {
-
-                        String[] combination = comb.split(":");
-                        String email = combination[0];
-                        String password = combination[1];
-                        int retries = 0;
-
-                        try {
-                            new Snipe(email, password, got1, releasetime, retries, finalBefore);
-                        } catch (IOException | InterruptedException | ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                    });
-                    t.start();
-
-
-
-                }
+                new InitSnipe(got1, releasetime);
 
 
 
