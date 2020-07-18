@@ -23,11 +23,11 @@ public class Snipe {
     public Snipe(String email, String password, String curname, String fdate, int retries, long before) throws IOException, InterruptedException, ParseException {
 
 
-        String masked = "";
+        StringBuilder masked = new StringBuilder();
 
-        for (@SuppressWarnings("unused") char chars: password.toCharArray()) {
+        for (char ignored:password.toCharArray()) {
 
-            masked = masked + "*";
+            masked.append("*");
 
         }
 
@@ -121,7 +121,7 @@ public class Snipe {
 
                 ConsoleLogger.logName("Successfully authenticated account: " + email + ":" + masked, curname);
 
-                String finalMasked = masked;
+                String finalMasked = masked.toString();
                 Runnable request = () -> new Request(uhash, oauth, curname, password, email, finalMasked);
                 ExecutorService ic = Executors.newFixedThreadPool(25);
 

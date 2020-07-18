@@ -55,15 +55,15 @@ public class Request {
 
                     File suc = new File("success.txt");
                     suc.createNewFile();
-                    String prev = "";
+                    StringBuilder prev = new StringBuilder();
                     Scanner accReader = new Scanner(suc);
                     while (accReader.hasNextLine()) {
-                        prev = prev + accReader.nextLine();
+                        prev.append(accReader.nextLine());
 
                     }
 
                     BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-                    if(prev.isEmpty()){
+                    if(prev.length() == 0){
 
                         writer.write(email + ":" + curpass + " - " + curname);
 

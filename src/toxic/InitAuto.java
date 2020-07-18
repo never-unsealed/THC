@@ -62,9 +62,9 @@ public class InitAuto {
 
 
 
-            String[] name = namepart.split("translate=\"no\">|\\</a></div>");
+            String[] name = namepart.split("translate=\"no\">|</a></div>");
 
-            String[] time = namepart.split("time datetime=\"|\\\">");
+            String[] time = namepart.split("time datetime=\"|\">");
 
 
             String[] releasetime1 = time[6].split("T");

@@ -43,10 +43,10 @@ public class Main {
             configfile.createNewFile();
 
 
-            String accs = "";
+            StringBuilder accs = new StringBuilder();
             Scanner accReader = new Scanner(accounts);
             while (accReader.hasNextLine()) {
-                accs = accs + accReader.nextLine() + "\r\n";
+                accs.append(accReader.nextLine()).append("\r\n");
 
             }
 
@@ -69,19 +69,19 @@ public class Main {
 
 
 
-            String config = "";
+            StringBuilder config = new StringBuilder();
             Scanner confReader = new Scanner(configfile);
             while (confReader.hasNextLine()) {
-                config = config + confReader.nextLine();
+                config.append(confReader.nextLine());
 
             }
 
             try{
 
-                String[] captchakey = config.split("CaptchaKey='");
+                String[] captchakey = config.toString().split("CaptchaKey='");
                 captchakeyst = captchakey[1].split("'")[0];
 
-                String[] timedifference = config.split("TimeDifference='");
+                String[] timedifference = config.toString().split("TimeDifference='");
                 try{
 
                     timeadjust = Long.parseLong(timedifference[1].split("'")[0]);
@@ -92,7 +92,7 @@ public class Main {
                     System.exit(1);
                 }
 
-                String[] webhook = config.split("WebhookURL='");
+                String[] webhook = config.toString().split("WebhookURL='");
                 webHookURL = webhook[1].split("'")[0];
 
 
@@ -110,7 +110,7 @@ public class Main {
 
             }
 
-            if(accs.isEmpty()){
+            if(accs.length() == 0){
 
                 ConsoleLogger.logError("No MC accounts found, please add them to accounts.txt in email:password format.");
                 System.exit(1);
@@ -121,7 +121,7 @@ public class Main {
 
 
 
-            eachAcc = accs.split("\r\n");
+            eachAcc = accs.toString().split("\r\n");
             ConsoleLogger.logInfo("Loaded " + eachAcc.length + " account(s)!");
             ConsoleLogger.logInfo("Loaded captcha key!");
             ConsoleLogger.logInfo("Adjusted time by " + timeadjust + "ms");

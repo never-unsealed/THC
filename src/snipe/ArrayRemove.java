@@ -38,7 +38,7 @@ public class ArrayRemove {
 
         if (Main.eachAcc.length == 0) {
 
-            ConsoleLogger.logInfo("All accounts used. Quitting...");;
+            ConsoleLogger.logInfo("All accounts used. Quitting...");
             System.exit(0);
 
 
