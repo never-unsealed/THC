@@ -69,7 +69,7 @@ public class Request {
 
                     }else{
 
-                        writer.write(prev + "\n" + email + ":" + curpass + " - " + curname);
+                        writer.write(prev + "\r\n" + email + ":" + curpass + " - " + curname);
 
                     }
                     writer.close();

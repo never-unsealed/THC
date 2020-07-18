@@ -19,7 +19,7 @@ public class ArrayRemove {
         list.removeAll(Arrays.asList(email + ":" + password));
         Main.eachAcc = list.toArray(EMPTY_STRING_ARRAY);
 
-        String uno = Arrays.toString(Main.eachAcc).replace(", ", "\n");
+        String uno = Arrays.toString(Main.eachAcc).replace(", ", "\r\n");
         String dos = uno.replaceAll("[\\[\\]]", "");
         String tres = dos.replace(email + ":" +  password, "");
         String cuatro = tres.replaceAll("(?m)^\\s*$[\n\r]{1,}", "");

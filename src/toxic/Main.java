@@ -26,8 +26,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
-
-
         if (args.length > 0) {
 
             double version = 4.5;
@@ -48,7 +46,7 @@ public class Main {
             String accs = "";
             Scanner accReader = new Scanner(accounts);
             while (accReader.hasNextLine()) {
-                accs = accs + accReader.nextLine() + "\n";
+                accs = accs + accReader.nextLine() + "\r\n";
 
             }
 
@@ -61,7 +59,7 @@ public class Main {
             if (configfull.isEmpty()) {
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(configfile));
-                writer.write("CaptchaKey='NONE' \n TimeDifference='0' \n WebhookURL='NONE'".replaceAll(" ", ""));
+                writer.write("CaptchaKey='NONE' \r\n TimeDifference='0' \r\n WebhookURL='NONE'".replaceAll(" ", ""));
                 writer.close();
                 ConsoleLogger.logInfo("Successfully generated config file, please enter required information and restart the bot.");
                 System.exit(1);
@@ -123,7 +121,7 @@ public class Main {
 
 
 
-            eachAcc = accs.split("\n");
+            eachAcc = accs.split("\r\n");
             ConsoleLogger.logInfo("Loaded " + eachAcc.length + " account(s)!");
             ConsoleLogger.logInfo("Loaded captcha key!");
             ConsoleLogger.logInfo("Adjusted time by " + timeadjust + "ms");

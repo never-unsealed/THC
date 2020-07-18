@@ -1,9 +1,8 @@
 package api;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import logger.ConsoleLogger;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
@@ -50,7 +49,7 @@ public class HttpWrapper {
             }
 
         } catch (IOException var8) {
-            throw new IllegalStateException("An IOException occurred:\n" + var8.getMessage());
+            ConsoleLogger.logError("2captcha refused connection!");
         }
     }
 
