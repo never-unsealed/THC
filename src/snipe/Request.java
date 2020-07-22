@@ -58,18 +58,20 @@ public class Request {
                     StringBuilder prev = new StringBuilder();
                     Scanner accReader = new Scanner(suc);
                     while (accReader.hasNextLine()) {
-                        prev.append(accReader.nextLine());
+                        prev.append(accReader.nextLine() + "\n");
 
                     }
 
+                    String lines = prev.toString().replace("\n", "\r\n");
+                    
                     BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-                    if(prev.length() == 0){
+                    if(lines.length() == 0){
 
                         writer.write(email + ":" + curpass + " - " + curname);
 
                     }else{
 
-                        writer.write(prev + "\r\n" + email + ":" + curpass + " - " + curname);
+                        writer.write(lines + email + ":" + curpass + " - " + curname);
 
                     }
                     writer.close();
