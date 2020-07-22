@@ -63,17 +63,13 @@ public class Request {
                     }
 
                     String lines = prev.toString().replace("\n", "\r\n");
-                    
+
                     BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-                    if(lines.length() == 0){
 
-                        writer.write(email + ":" + curpass + " - " + curname);
 
-                    }else{
+                    writer.write(lines + email + ":" + curpass + " - " + curname);
 
-                        writer.write(lines + email + ":" + curpass + " - " + curname);
 
-                    }
                     writer.close();
 
 
