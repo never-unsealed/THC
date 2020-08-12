@@ -21,70 +21,67 @@ public class Request {
 
 
 
-            try {
-                URL url = new URL("https://api.mojang.com/user/profile/" + hash + "/name");
 
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Authorization", "Bearer " + bearer);
-                con.setRequestProperty("Content-Type", "application/json; utf-8");
-                con.setDoOutput(true);
+        try {
+            URL url = new URL("https://api.mojang.com/user/profile/" + hash + "/name");
 
-                String jsonInputString = "{\"name\":\"" + curname + "\",\"password\":\"" + curpass + "\"}";
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", "Bearer " + bearer);
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setDoOutput(true);
 
-                try (OutputStream os = con.getOutputStream()) {
-                    byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                    os.write(input, 0, input.length);
-                }
+            String jsonInputString = "{\"name\":\"" + curname + "\",\"password\":\"" + curpass + "\"}";
 
-                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
-                Date date = new Date(System.currentTimeMillis());
-
-
-                if (con.getResponseCode() == 204) {
-
-                    Date date1 = new Date(System.currentTimeMillis());
-
-                    ConsoleLogger.logName("Response 204: Username changed. Timing: " + formatter.format(date) + "/" + formatter.format(date1), curname);
-                    ConsoleLogger.logSuccess("Username sniped on account: " + email + ":" + masked, curname);
-
-                    if (!Main.webHookURL.equals("NONE") && Main.webHookURL.startsWith("https://discordapp.com/api/webhooks/") || Main.webHookURL.startsWith("http://discordapp.com/api/webhooks/")) {
-                        new SendMessage(Main.webHookURL, ":white_check_mark: | Successfully sniped username **'" + curname + "'** onto **" + email + "**.");
-                    }
-
-
-                    File suc = new File("success.txt");
-                    suc.createNewFile();
-                    StringBuilder prev = new StringBuilder();
-                    Scanner accReader = new Scanner(suc);
-                    while (accReader.hasNextLine()) {
-                        prev.append(accReader.nextLine() + "\n");
-
-                    }
-
-                    String lines = prev.toString().replace("\n", "\r\n");
-
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
-
-
-                    writer.write(lines + email + ":" + curpass + " - " + curname);
-
-
-                    writer.close();
-
-
-                    new ArrayRemove(email, curpass, curname);
-
-
-                }
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
+            try (OutputStream os = con.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
             }
+
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+            Date date = new Date(System.currentTimeMillis());
+
+
+            if (con.getResponseCode() == 204) {
+
+                Date date1 = new Date(System.currentTimeMillis());
+
+                ConsoleLogger.logName("Response 204: Username changed. Timing: " + formatter.format(date) + "/" + formatter.format(date1), curname);
+                ConsoleLogger.logSuccess("Username sniped on account: " + email + ":" + masked, curname);
+
+                if (!Main.webHookURL.equals("NONE") && Main.webHookURL.startsWith("https://discordapp.com/api/webhooks/") || Main.webHookURL.startsWith("http://discordapp.com/api/webhooks/")) {
+                    new SendMessage(Main.webHookURL, ":white_check_mark: | Successfully sniped username **'" + curname + "'** onto **" + email + "**.");
+                }
+
+
+                File suc = new File("success.txt");
+                suc.createNewFile();
+                StringBuilder prev = new StringBuilder();
+                Scanner accReader = new Scanner(suc);
+                while (accReader.hasNextLine()) {
+                    prev.append(accReader.nextLine() + "\n");
+
+                }
+
+                String lines = prev.toString().replace("\n", "\r\n");
+                BufferedWriter writer = new BufferedWriter(new FileWriter(suc));
+                writer.write(lines + email + ":" + curpass + " - " + curname);
+                writer.close();
+
+
+                new ArrayRemove(email, curpass, curname);
+
+
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
 
 
     }
+
 
 
 

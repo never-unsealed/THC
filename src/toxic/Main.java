@@ -10,8 +10,7 @@ import java.util.Scanner;
 import java.util.TimeZone;
 
 public class Main {
-    
-    public static String captchakeyst = "";
+
     public static String webHookURL = "";
 
     public static String[] eachAcc;
@@ -19,6 +18,7 @@ public class Main {
     public static long timeadjust = 0;
     public static long ping = 0;
     public static long failedLogin = 0;
+    public static long minviews = 0;
 
     public static boolean isActive = false;
 
@@ -28,7 +28,7 @@ public class Main {
 
         if (args.length > 0) {
 
-            double version = 4.5;
+            double version = 5.0;
 
             new ProcessBuilder("cmd", "/c", "title THC v" + version).inheritIO().start().waitFor();
             TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
@@ -59,7 +59,7 @@ public class Main {
             if (configfull.isEmpty()) {
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(configfile));
-                writer.write("CaptchaKey='NONE' \r\n TimeDifference='0' \r\n WebhookURL='NONE'".replaceAll(" ", ""));
+                writer.write("TimeDifference='0' \r\n AutoModeMinViews='100' \r\n WebhookURL='NONE'".replaceAll(" ", ""));
                 writer.close();
                 ConsoleLogger.logInfo("Successfully generated config file, please enter required information and restart the bot.");
                 System.exit(1);
@@ -78,13 +78,14 @@ public class Main {
 
             try{
 
-                String[] captchakey = config.toString().split("CaptchaKey='");
-                captchakeyst = captchakey[1].split("'")[0];
 
-                String[] timedifference = config.toString().split("TimeDifference='");
+
+
+                String timedifference = config.toString().split("TimeDifference='")[1].split("'")[0];
+
                 try{
 
-                    timeadjust = Long.parseLong(timedifference[1].split("'")[0]);
+                    timeadjust = Long.parseLong(timedifference);
 
                 }catch(NumberFormatException e){
 
@@ -92,8 +93,23 @@ public class Main {
                     System.exit(1);
                 }
 
-                String[] webhook = config.toString().split("WebhookURL='");
-                webHookURL = webhook[1].split("'")[0];
+                String minviewsst = config.toString().split("AutoModeMinViews='")[1].split("'")[0];
+
+                try{
+
+                    minviews = Long.parseLong(minviewsst);
+
+
+                }catch(NumberFormatException e){
+
+                    ConsoleLogger.logError("Invalid value for min. namemc views (check config file)");
+                    System.exit(1);
+
+                }
+
+
+                webHookURL = config.toString().split("WebhookURL='")[1].split("'")[0];
+
 
 
             }catch(ArrayIndexOutOfBoundsException e){
@@ -103,12 +119,6 @@ public class Main {
 
             }
 
-            if(captchakeyst.equals("NONE") || captchakeyst.length() != 32){
-
-                ConsoleLogger.logError("No captcha key or invalid key detected, please paste it into config.txt (Parameter: CaptchaKey)");
-                System.exit(1);
-
-            }
 
             if(accs.length() == 0){
 
@@ -123,7 +133,6 @@ public class Main {
 
             eachAcc = accs.toString().split("\r\n");
             ConsoleLogger.logInfo("Loaded " + eachAcc.length + " account(s)!");
-            ConsoleLogger.logInfo("Loaded captcha key!");
             ConsoleLogger.logInfo("Adjusted time by " + timeadjust + "ms");
             if(webHookURL.equals("NONE")){
 
@@ -142,7 +151,7 @@ public class Main {
             ConsoleLogger.logInput("Select mode:" + "\n");
             ConsoleLogger.logInput("1: Manual sniper" + "\n");
             ConsoleLogger.logInput("2: Auto mode (3-char)" + "\n");
-            ConsoleLogger.logInput("3: Auto mode (>100 views)" + "\n");
+            ConsoleLogger.logInput("3: Auto mode (>" + minviews + " views)" + "\n");
             ConsoleLogger.logInput("4: Turbo mode" + "\n");
             ConsoleLogger.logInput("Mode: ");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

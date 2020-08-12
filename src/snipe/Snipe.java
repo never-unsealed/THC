@@ -1,6 +1,5 @@
 package snipe;
 
-import api.TwoCaptchaService;
 import logger.ConsoleLogger;
 import toxic.Main;
 
@@ -13,19 +12,20 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Snipe {
 
 
-    public Snipe(String email, String password, String curname, String fdate, int retries, long before) throws IOException, InterruptedException, ParseException {
+    public Snipe(String email, String password, String curname, String fdate, long before) throws IOException, InterruptedException, ParseException {
 
 
         StringBuilder masked = new StringBuilder();
 
-        for (char ignored:password.toCharArray()) {
+        for (char ignored: password.toCharArray()) {
 
             masked.append("*");
 
@@ -40,12 +40,13 @@ public class Snipe {
         conh.setRequestMethod("POST");
         conh.setRequestProperty("Content-Type", "application/json; utf-8");
         conh.setDoOutput(true);
+        conh.setDoInput(true);
 
-        String jsonHash = "{\"agent\":{\"name\":\"Minecraft\",\"version\":1},\"username\":\"" + email + "\",\"password\":\"" + password + "\"}";
+        String jsonInputString = "{\"agent\":{\"name\":\"Minecraft\",\"version\": 1},\"username\":\"" + email + "\",\"password\":\"" + password + "\",\"requestUser\":true}";
 
 
         try (OutputStream oso = conh.getOutputStream()) {
-            byte[] input1 = jsonHash.getBytes(StandardCharsets.UTF_8);
+            byte[] input1 = jsonInputString.getBytes(StandardCharsets.UTF_8);
             oso.write(input1, 0, input1.length);
         }
 
@@ -65,147 +66,90 @@ public class Snipe {
 
 
 
-            String[] hash1 = jsonResponse1.split("\"id\":\"");
-            String[] hash2 = hash1[1].split("\"");
-            String uhash = hash2[0];
-
-            String responseToken;
+            String uhash = jsonResponse1.split("selectedProfile")[1].split("\"id\":\"")[1].split("\"")[0];
 
 
+            String oauth = jsonResponse1.split("\"accessToken\":\"")[1].split("\"")[0];
 
-            String apiKey = Main.captchakeyst;
-            String googleKey = "6LfbsiMUAAAAAOu1nGK8InBaFrIk17dcbI0sqvzj";
-            String pageUrl = "https://www.minecraft.net/en-us/login";
+            URL sqserver = new URL("https://api.mojang.com/user/security/challenges");
 
-            TwoCaptchaService service = new TwoCaptchaService(apiKey, googleKey, pageUrl);
+            HttpURLConnection sq = (HttpURLConnection) sqserver.openConnection();
 
-            responseToken = service.solveCaptcha();
+            sq.setRequestMethod("GET");
+            sq.setRequestProperty("Authorization", "Bearer " + oauth);
 
+            sq.setDoOutput(true);
+            sq.connect();
 
-
-            URL url = new URL("https://authserver.mojang.com/authenticate");
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setDoOutput(true);
-
-            String jsonInputString = "{\"username\":\"" + email + "\",\"password\":\"" + password + "\",\"captcha\":\"" + responseToken + "\",\"captchaSupported\":\"invisibleReCaptcha\",\"requestUser\":true}";
+            sq.getResponseCode();
 
 
+            ConsoleLogger.logName("Successfully authenticated account: " + email + ":" + masked, curname);
 
-            try (OutputStream os = con.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
+
+            String finalMasked = masked.toString();
+            Runnable request = () -> new Request(uhash, oauth, curname, password, email, finalMasked);
+            ExecutorService ic = Executors.newFixedThreadPool(25);
+
+            long wait;
+
+            if (Main.eachAcc.length > 5) {
+
+                Random r = new Random();
+                int low = 5;
+                int high = 15;
+
+                wait = r.nextInt(high - low) + low;
+
+            } else {
+
+                wait = 20;
+
+
             }
 
-            String jsonResponse;
-
-            try {
-
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
-                    StringBuilder response = new StringBuilder();
-                    String responseLine;
-                    while ((responseLine = br.readLine()) != null) {
-                        response.append(responseLine.trim());
-                    }
-
-                    jsonResponse = response.toString();
-                }
 
 
-                String[] bearer1 = jsonResponse.split("\"accessToken\":\"");
-                String[] bearer2 = bearer1[1].split("\"");
-                String oauth = bearer2[0];
+
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
+            SimpleDateFormat formatic = new SimpleDateFormat("HH:mm:ss.SSS");
+            Date date = new Date(System.currentTimeMillis());
+            String currentime = format.format(date);
 
 
-                ConsoleLogger.logName("Successfully authenticated account: " + email + ":" + masked, curname);
+            Date d1 = format.parse(currentime);
+            Date d2 = format.parse(fdate + ".000");
 
-                String finalMasked = masked.toString();
-                Runnable request = () -> new Request(uhash, oauth, curname, password, email, finalMasked);
-                ExecutorService ic = Executors.newFixedThreadPool(25);
 
-                long wait;
+            long diff = d2.getTime() - d1.getTime();
 
-                if(Main.eachAcc.length > 5){
 
-                    Random r = new Random();
-                    int low = 5;
-                    int high = 15;
+            if ((diff - 500 + before + Main.timeadjust) > 0) {
 
-                    wait = r.nextInt(high - low) + low;
 
-                }else{
+                Thread.sleep(diff - 500 - before + Main.timeadjust);
 
-                    wait = 20;
+                Date date1 = new Date(System.currentTimeMillis());
+                ConsoleLogger.logName("Starting Ion Cannon for " + email + ". Timing: " + formatic.format(date1), curname);
 
+                for (int i = 0; i < 25; i++) {
+
+                    ic.execute(request);
+                    Thread.sleep(wait);
 
                 }
 
+                Thread.sleep(2000);
+                ic.shutdown();
+                while (!ic.isTerminated());
 
 
-                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-                Date date = new Date(System.currentTimeMillis());
-                String currentime = format.format(date);
+                Date date2 = new Date(System.currentTimeMillis());
+                ConsoleLogger.logName("Finished Ion Cannon for " + email + ". Timing: " + formatic.format(date2), curname);
 
+            } else {
 
-                Date d1 = format.parse(currentime);
-                Date d2 = format.parse(fdate + ".000");
-
-
-                long diff = d2.getTime() - d1.getTime();
-
-
-                if ((diff - 500 + before + Main.timeadjust) > 0) {
-
-
-                    Thread.sleep(diff - 500 - before + Main.timeadjust);
-
-                    ConsoleLogger.logName("Starting Ion Cannon for " + email, curname);
-
-                    for (int i = 0; i < 25; i++) {
-
-                        ic.execute(request);
-                        Thread.sleep(wait);
-
-                    }
-
-                    Thread.sleep(2000);
-                    ic.shutdown();
-                    while(!ic.isTerminated());
-
-
-                    ConsoleLogger.logName("Finished Ion Cannon for " + email, curname);
-
-                }else{
-
-                    ConsoleLogger.logFailed(email + " couldn't prepare in time.", curname);
-
-                }
-
-
-
-
-
-
-            } catch (IOException e) {
-
-
-
-                if (retries < 2) {
-
-                    ConsoleLogger.logNameError("Invalid captcha key for account: " + email + ":" + masked + " - Retrying...", curname);
-                    new Snipe(email, password, curname, fdate, retries + 1, before);
-
-                } else {
-
-                    ConsoleLogger.logFailed("Account seems to be invalid: " + email + ":" + masked, curname);
-
-                    new ArrayRemove(email, password, curname);
-
-
-
-                }
+                ConsoleLogger.logFailed(email + " couldn't prepare in time.", curname);
 
             }
 

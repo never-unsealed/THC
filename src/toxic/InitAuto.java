@@ -28,7 +28,7 @@ public class InitAuto {
 
         }else if(submode.equals("3")){
 
-            connection = new URL("https://namemc.com/minecraft-names?length_op=&length=3&lang=&searches=100").openConnection();
+            connection = new URL("https://namemc.com/minecraft-names?length_op=&length=3&lang=&searches=" + Main.minviews).openConnection();
 
         }
 
@@ -108,9 +108,9 @@ public class InitAuto {
 
 
 
-                if (((totalsecond * 1000) - 300000) > 0) {
+                if (((totalsecond * 1000) - 30000) > 0) {
                     try {
-                        Thread.sleep((totalsecond * 1000) - 300000);
+                        Thread.sleep((totalsecond * 1000) - 30000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

@@ -40,10 +40,10 @@ public class InitSnipe {
                 String[] combination = comb.split(":");
                 String email = combination[0];
                 String password = combination[1];
-                int retries = 0;
+
 
                 try {
-                    new Snipe(email, password, curname, fdate, retries, before);
+                    new Snipe(email, password, curname, fdate, before);
                 } catch (IOException | InterruptedException | ParseException e) {
                     e.printStackTrace();
                 }

@@ -52,8 +52,8 @@ public class InitManual {
 
                 ConsoleLogger.logInfo("Task for username '" + got1 + "' started. " + diff / 1000 + "s remaining");
 
-                if ((diff - 300000) > 0) {
-                    Thread.sleep(diff - 300000);
+                if ((diff - 30000) > 0) {
+                    Thread.sleep(diff - 30000);
                 }
 
 
@@ -109,8 +109,8 @@ public class InitManual {
 
                 ConsoleLogger.logInfo("Task for username '" + got1 + "' started. " + diff / 1000 + "s remaining");
 
-                if ((diff - 300000) > 0) {
-                    Thread.sleep(diff - 300000);
+                if ((diff - 30000) > 0) {
+                    Thread.sleep(diff - 30000);
                 }
 
                 new InitSnipe(got1, releasetime);
