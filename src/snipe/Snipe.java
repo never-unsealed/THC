@@ -3,10 +3,7 @@ package snipe;
 import logger.ConsoleLogger;
 import toxic.Main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -65,7 +62,6 @@ public class Snipe {
             }
 
 
-
             String uhash = jsonResponse1.split("selectedProfile")[1].split("\"id\":\"")[1].split("\"")[0];
 
 
@@ -84,74 +80,115 @@ public class Snipe {
             sq.getResponseCode();
 
 
-            ConsoleLogger.logName("Successfully authenticated account: " + email + ":" + masked, curname);
+            URL url = new URL("https://api.mojang.com/user/profile/" + uhash + "/name");
 
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", "Bearer " + oauth);
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setDoOutput(true);
 
-            String finalMasked = masked.toString();
-            Runnable request = () -> new Request(uhash, oauth, curname, password, email, finalMasked);
-            ExecutorService ic = Executors.newFixedThreadPool(25);
+            String jsonTestString = "{\"name\":\"" + "test" + "\",\"password\":\"" + password + "\"}";
 
-            long wait;
-
-            if (Main.eachAcc.length > 5) {
-
-                Random r = new Random();
-                int low = 5;
-                int high = 15;
-
-                wait = r.nextInt(high - low) + low;
-
-            } else {
-
-                wait = 20;
-
-
+            try (OutputStream os = con.getOutputStream()) {
+                byte[] input = jsonTestString.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
             }
 
 
+            con.getResponseCode();
+
+            InputStream errorstream = con.getErrorStream();
+
+            StringBuilder response = new StringBuilder();
+
+            String line;
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(errorstream));
+
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+
+            if (!response.toString().contains("30 days")) {
 
 
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
-            SimpleDateFormat formatic = new SimpleDateFormat("HH:mm:ss.SSS");
-            Date date = new Date(System.currentTimeMillis());
-            String currentime = format.format(date);
 
 
-            Date d1 = format.parse(currentime);
-            Date d2 = format.parse(fdate + ".000");
+                ConsoleLogger.logName("Successfully authenticated account: " + email + ":" + masked, curname);
 
 
-            long diff = d2.getTime() - d1.getTime();
+                String finalMasked = masked.toString();
+                Runnable request = () -> new Request(uhash, oauth, curname, password, email, finalMasked);
+                ExecutorService ic = Executors.newFixedThreadPool(25);
 
+                long wait;
 
-            if ((diff - 500 + before + Main.timeadjust) > 0) {
+                if (Main.eachAcc.length > 5) {
 
+                    Random r = new Random();
+                    int low = 5;
+                    int high = 15;
 
-                Thread.sleep(diff - 500 - before + Main.timeadjust);
+                    wait = r.nextInt(high - low) + low;
 
-                Date date1 = new Date(System.currentTimeMillis());
-                ConsoleLogger.logName("Starting Ion Cannon for " + email + ". Timing: " + formatic.format(date1), curname);
+                } else {
 
-                for (int i = 0; i < 25; i++) {
+                    wait = 20;
 
-                    ic.execute(request);
-                    Thread.sleep(wait);
 
                 }
 
-                Thread.sleep(2000);
-                ic.shutdown();
-                while (!ic.isTerminated());
+
+                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
+                SimpleDateFormat formatic = new SimpleDateFormat("HH:mm:ss.SSS");
+                Date date = new Date(System.currentTimeMillis());
+                String currentime = format.format(date);
 
 
-                Date date2 = new Date(System.currentTimeMillis());
-                ConsoleLogger.logName("Finished Ion Cannon for " + email + ". Timing: " + formatic.format(date2), curname);
+                Date d1 = format.parse(currentime);
+                Date d2 = format.parse(fdate + ".000");
+
+
+                long diff = d2.getTime() - d1.getTime();
+
+
+                if ((diff - 500 - before + Main.timeadjust) > 0) {
+
+
+                    Thread.sleep(diff - 500 - before + Main.timeadjust);
+
+                    Date date1 = new Date(System.currentTimeMillis());
+                    ConsoleLogger.logName("Starting Ion Cannon for " + email + ". Timing: " + formatic.format(date1), curname);
+
+                    for (int i = 0; i < 25; i++) {
+
+                        ic.execute(request);
+                        Thread.sleep(wait);
+
+                    }
+
+                    Thread.sleep(2000);
+                    ic.shutdown();
+                    while (!ic.isTerminated());
+
+
+                    Date date2 = new Date(System.currentTimeMillis());
+                    ConsoleLogger.logName("Finished Ion Cannon for " + email + ". Timing: " + formatic.format(date2), curname);
+
+                } else {
+
+                    ConsoleLogger.logFailed(email + " couldn't prepare in time.", curname);
+
+                }
 
             } else {
 
-                ConsoleLogger.logFailed(email + " couldn't prepare in time.", curname);
+                ConsoleLogger.logFailed("Account name cannot be changed: " + email + ":" + masked, curname);
+                new ArrayRemove(email, password, curname);
 
             }
+
 
         } else {
 

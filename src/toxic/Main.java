@@ -28,9 +28,11 @@ public class Main {
 
         if (args.length > 0) {
 
-            double version = 5.0;
+            double version = 5.1;
 
-            new ProcessBuilder("cmd", "/c", "title THC v" + version).inheritIO().start().waitFor();
+            if(System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "title THC v" + version).inheritIO().start().waitFor();
+            }
             TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 
             ConsoleLogger.fancy();
@@ -186,8 +188,16 @@ public class Main {
 
         } else {
 
-            String command = "cmd /c start cmd.exe /K \"@echo off && java -jar THC.jar run\"";
-            Runtime.getRuntime().exec(command);
+            if(System.getProperty("os.name").contains("Windows")) {
+
+                String command = "cmd /c start cmd.exe /K \"@echo off && java -jar THC.jar run\"";
+                Runtime.getRuntime().exec(command);
+
+            }else{
+
+                System.out.println("Please start program with command: java -jar THC.jar run");
+
+            }
             System.exit(0);
 
 

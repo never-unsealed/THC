@@ -74,9 +74,17 @@ public class InitManual {
             URLConnection connection = new URL("https://namemc.com/name/" + got1).openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
             connection.connect();
-
-            BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-
+            
+            BufferedReader r = null;
+            try {
+                r = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            }catch(IOException e){
+                
+                ConsoleLogger.logError("Connection to namemc failed! (VPS IP detected?)");
+                System.exit(1);
+                
+            }
+                
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = r.readLine()) != null) {
